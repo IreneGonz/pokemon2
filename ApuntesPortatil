@@ -1,0 +1,114 @@
+Para probar la app hay que irse a la carpeta como con los servlets, y ponemos mvn spring-boot:run (despues localhost:8080 como con los servlets) y Ctrl+C para parar
+
+spring y cosas (DDI a partir del codigo de servlets)
+
+Descargamos el repositorio security exploits e importamos a eclipse (badCode, goodCode, jar, shared, ssa)
+
+En la carpeta del proyecto
+mvn clean para limpiar lo que tenga, mvn compile, mvn package (mvn package -DskipTests=True para saltar los test que ejecuta de forma automatica), mvn install
+Para probar la app hay que irse a la carpeta jar, y ponemos mvn spring-boot:run -PbadCode (la P es de Profile. Ejecuto la app con el Profile de badCode) y entramos en localhost:8080
+
+(me da error por compilador)
+
+
+Una anotacion @RequestMapping(path="owner", methor=RequestMethod.GET)
+@GetMapping(path="addOwner")
+Estas dos anotaciones son la misma basicamente
+Cuando en localhost:8080 vas a la pagina addOwner hara el metodo que tenga debajo, despues del @taltaltal
+La clase atiende a las peticiones porque tiene @Controller arriba del todo
+
+@ComponentScan(basePackages= {"es.salesianos.*"}
+Sirve para que busque componentes de Spring en los paquetes en los que el nombre coincida con lo que pone en basePackages
+
+pom
+web.xml
+spring-context.xml ??
+index.jsp
+addOwner.jsp
+ownerSaved.jsp
+
+
+SE COPIAN ARCHIVOS QUE NOS INTERESAN (se puede hacer tambien de forma mas visual, no por comandos
+~  cd Escritorio
+~/Escritorio  cd Spring/
+~/Escritorio/Spring  mkdir springIre
+~/Escritorio/Spring  cd springIre
+~/Escritorio/Spring/springIre  cp ../SpringBootJsp/pom.xml .
+~/Escritorio/Spring/springIre  mkdir -p src/{main,test}/{java,resources}
+
+Hay que cambiar algo del pom.xml
+
+cp ../SpringBootJsp/src/main/resources/application.properties src/main/resources
+cp ../SpringBootJsp/src/main/java/es/salesianos/demo/DemoApplication.java  src/main/java
+
+
+start.pring.io (de ahi descarga archivos para hacer prueba de estas)
+
+Ahora creamos unas carpetas que hacen falta:
+mkdir -p src/main/webapp/WEB-INF/jsp
+cp ../SpringBootJsp/src/main/webapp/WEB-INF/spring-context.xml src/main/webapp/WEB-INF/
+cp ../SpringBootJsp/src/main/webapp/WEB-INF/jsp/index.jsp src/main/webapp/WEB-INF/jsp/
+cp ../SpringBootJsp/src/main/webapp/WEB-INF/jsp/addOwner.jsp src/main/webapp/WEB-INF/jsp/
+
+Le cambiamos los nombres a todo->addOwner = addStudent
+
+Añadimos un paquete que se llama controller y dentro un StudentController.java
+Creamos un metodo showStudent. Antes de eso ponemos @RequestMapping(path = "addStudent", methor = RequestMethod.POST)
+Esto significa que cuando se llame a addStudent(???) se vaya al metodo que hemos puesto abajo, ShowStudent
+Otra opcion es poner @PostMapping("addStudent")
+Otro package model y dentro metemos una clase Student
+(Los paquetes van dentro de src/main/java)
+En Student private string name y surname, con sus getter y setter
+
+En StudentController el metodo espera recibir un Student student y dentro se imprime el student.toString(); (??? porque en Student generate method code??? .toString y marcamos el name y surname)
+
+Todo esto esta en springbootbasico (sin importar a eclipse aun)
+
+Remote Java Application
+(esto era para el maven debug)
+
+@Profile("") sirve para que entre dos @Service("") que tengan el mismo nombre se elija uno de los dos al arrancar la aplicacion, y eso se determina en el fichero application.properties en src/main/resources (spring.profiles.active=PRO).
+Cuando arrancas la app al final del todo te dice el perfil activo
+
+@SpringBootApplication-> indica que es un componente de Spring
+Dentro metes @ComponentScan(basePackages ={"es.salesianos.*"}) para que busque componentes de spring dentro del paquete que le pongas ahi? 
+
+En application.properties (src/main/resources)
+spring.mvc.view.prefix: los archivos de vista estan en /WEB-INF/jsp/
+spring.mvc.view.suffix: los archivos de vista acaban con extension .jsp
+@GetMapping(path="addOwner") == @RequestMapping(path = "", method = RequestMethod.POST)
+
+
+MIERCOLES 5 spring
+formulario enviar parametros y tal
+EJEMPLOS: springbootbasico, springbootjsp
+
+En un metodo para pasarse parametros: public String showparam(@RequestParam String msg) {
+Antes de ese metodo @PostMapping("showparam")
+Para devolver a la pagina en la que estaba(?) tengo que poner un return "";
+Tecnicamente tiene que recibir algo mas, un @ModelAtribute en el controller
+
+Springjpa lo puso en un examen???
+
+En StudentController el metodo showstudent si en el formulario se llama de forma diferente hay que poner entre los () @ModelAtribute("nombre en el formulario")
+
+
+git log
+git checkout numLogQueInteresa->volvemos a donde queremos ir
+
+
+TEMA DE PERFILES DE SPRING
+Todo esta en springbootbasico en src/main/java en el package de configuration
+Y en src/main/resources estan los applica.properties
+Dentro del studentcontroller metemos una variable de configuracion y tiene un @AutoWired. El trasto de configuracion es una interfaz.
+En application.properties decido que perfil o perfiles están activos
+application-nombrePerfil.properties -> ahi se puede sobreescribir la variable de app.cadena
+
+Lo de profile.active peta si no hay ninguno metido, en ese caso habria que poner no se que default en el proconfig o el testconfig
+Se crea defaultconfig y se pone @component y nada de profile("loquesea")
+
+EL PROYECTO DE pubg MUY PARECIDO AL DE EXAMEN
+EL EXAMEN PUEDE SER DE POKEMON
+
+
+CLONAR repositorio 

@@ -1,0 +1,47 @@
+POKEMON
+
+Todos los modelos empiezan con @Component
+
+Modelos:
+-Ash (persona)
+    +Pokemon
+-Pokemon
+    +Nombre
+    +Vida
+    +Ataques (NO PUESTO AUN)
+
+IndexController tiene que tener @Controller y dentro @Autowired
+Dentro del IndexController hay que poner @PostMapping("ruta donde se manda") y
+despues ya el metodo que se tiene que ejecutar en ese caso
+
+AshLv1: 3 poke max
+AshLv2: 5 poke max
+AshLv3: 7 poke max
+
+		<tbody>
+			<c:forEach var="poke" items="${ash.pokemon}">
+				<tr>
+					<td><c:out value="${poke.name}" /></td>
+					<td><c:out value="${poke.vida}" /></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+
+
+
+<form:form action="insert" method="post" modelAttribute="ash">
+		<span>Nuevo Pokemon:</span>
+		<span>Nombre:</span>
+		<form:input type="text" path="pokemon.name" />
+		<span>Vida:</span>
+		<form:input type="number" path="pokemon.vida" />
+		<input type="submit" value="Añadir pokemon" />
+	</form:form>	
+
+    
+Rival extends de pokemon
+
+rival.getVidaRival()
+y que sea un random??
+
+mvn spring-boot:run -X para ver por que da error de build
