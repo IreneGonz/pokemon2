@@ -21,8 +21,6 @@
 	<br /> El nombre del maestro pokemon es
 	<span><c:out value="${ash.name}" /></span>
 	<br />
-	<br />
-	<br />
 	
 	<span><c:out value="${ash.limite}" /></span>
 	<form:form action="insert" method="post" modelAttribute="ash">
@@ -37,6 +35,21 @@
 		<span>Defensa:</span>
 		<form:input type="number" path="pokemonAux.defensa" />
 		<input type="submit" value="Añadir pokemon al equipo" />
+	</form:form>
+	
+	<span><c:out value="${ash.limite}" /></span>
+	<form:form action="capturar" method="post" modelAttribute="ash">
+		<span>Intenta capturar al Pokemon:</span>
+		<br/>
+		<span>Nombre:</span>
+		<form:input type="text" path="pokemonCapt.name" />
+		<span>Vida:</span>
+		<c:out value="${ash.pokemonCapt.vida}" />
+		<span>Ataque:</span>
+		<c:out value="${ash.pokemonCapt.ataque}" />
+		<span>Defensa:</span>
+		<c:out value="${ash.pokemonCapt.defensa}" />
+		<input type="submit" value="Intentar capturar!" />
 	</form:form>
 	
 	<br />
@@ -85,10 +98,8 @@
 				</form:form>
 			</tr>
 		</tbody>
-		<br />
 	</table>
 	<span><c:out value="${ash.rival.estado} " /></span>
-	<br />
 	<br />
 	
 	<table border="1">
@@ -103,7 +114,6 @@
 		</thead>
 		<tbody>
 			<c:forEach var="poke" items="${ash.pokemonDeb}">
-				
 				<tr>
 					<td><c:out value="${poke.name}" /></td>
 					<td><c:out value="${poke.vida}" /></td>

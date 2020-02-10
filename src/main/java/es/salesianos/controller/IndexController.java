@@ -53,6 +53,7 @@ public class IndexController {
 		Pokemon pok = new Pokemon();
 		List<Pokemon> pokes = new ArrayList<Pokemon>();
 
+		// Si el pokemon tiene vida 0 no lo puedes añadir
 		// if (!StringUtils.isEmpty(ashForm.getPokemonAux()) &&
 		// ashForm.getPokemonAux().isAlive()) {
 		if (!StringUtils.isEmpty(ashForm.getPokemonAux())) {
@@ -100,6 +101,42 @@ public class IndexController {
 		modelAndView.addObject("ash", ash);
 		System.out.println("combatiendo");
 		return modelAndView;
+	}
+
+	@PostMapping("capturar")
+	public ModelAndView pokCaptura(Ash ashForm) {
+		ModelAndView modelAndView = new ModelAndView("index");
+		// capturePokemon(ashForm);
+		modelAndView.addObject("ash", ash);
+		return null;
+	}
+
+	private void capturePokemon(Ash ashForm) {
+
+		Pokemon pok = new Pokemon();
+		List<Pokemon> pokes = new ArrayList<Pokemon>();
+
+		// Si el pokemon tiene vida 0 no lo puedes añadir
+		// if (!StringUtils.isEmpty(ashForm.getPokemonAux()) &&
+		// ashForm.getPokemonAux().isAlive()) {
+		if (!StringUtils.isEmpty(ashForm.getPokemonCapt())) {
+
+			pok.setName(ashForm.getPokemonCapt().getName());
+			pok.setVida(ashForm.getPokemonCapt().getVida());
+			pok.setAtaque(ashForm.getPokemonAux().getAtaque());
+			pok.setDefensa(ashForm.getPokemonAux().getDefensa());
+
+			if (ash.getPokemon() != null) {
+				pokes = ash.getPokemon();
+			}
+			if (ash.getPokemon() == null || ash.getPokemon().size() < ash.getMaxPokes()) {
+				System.out.println(ashForm.getPokemonAux().getVida());
+				pokes.add(pok);
+				ash.setPokemon(pokes);
+			} else {
+				ash.setLimite("No puedes capturar más pokemons");
+			}
+		}
 	}
 
 	private void combatir(Rival rival, List<Pokemon> equipo, List<Pokemon> debilitados) {
