@@ -53,6 +53,8 @@ public class IndexController {
 		Pokemon pok = new Pokemon();
 		List<Pokemon> pokes = new ArrayList<Pokemon>();
 
+		// if (!StringUtils.isEmpty(ashForm.getPokemonAux()) &&
+		// ashForm.getPokemonAux().isAlive()) {
 		if (!StringUtils.isEmpty(ashForm.getPokemonAux())) {
 			if (ash.getPokemon() != null) {
 				pokes = ash.getPokemon();
@@ -61,8 +63,14 @@ public class IndexController {
 			pok.setVida(ashForm.getPokemonAux().getVida());
 			pok.setAtaque(ashForm.getPokemonAux().getAtaque());
 			pok.setDefensa(ashForm.getPokemonAux().getDefensa());
-			pokes.add(pok);
-			ash.setPokemon(pokes);
+
+			if (ash.getPokemon() == null || ash.getPokemon().size() < ash.getMaxPokes()) {
+				System.out.println(ashForm.getPokemonAux().getVida());
+				pokes.add(pok);
+				ash.setPokemon(pokes);
+			} else {
+				ash.setLimite("No puedes capturar más pokemons");
+			}
 		}
 	}
 
@@ -79,13 +87,14 @@ public class IndexController {
 	public ModelAndView combate() {
 		ModelAndView modelAndView = new ModelAndView("index");
 		List<Pokemon> equipo;
+		List<Pokemon> debilitados = new ArrayList<Pokemon>();
 
 		if (!StringUtils.isEmpty(ash.getPokemon())) {
 			System.out.println("HABIA pokemon");
 			rival = ash.getRival();
 			equipo = ash.getPokemon();
 
-			combatir(rival, equipo);
+			combatir(rival, equipo, debilitados);
 		}
 
 		modelAndView.addObject("ash", ash);
@@ -93,7 +102,7 @@ public class IndexController {
 		return modelAndView;
 	}
 
-	private void combatir(Rival rival, List<Pokemon> equipo) {
+	private void combatir(Rival rival, List<Pokemon> equipo, List<Pokemon> debilitados) {
 		int hpEquipo = 0;
 		int atEquipo = 0;
 
@@ -106,8 +115,9 @@ public class IndexController {
 				pok.setVida(pok.getVida() - rival.getAtaque());
 				hpEquipo -= rival.getAtaque();
 			}
-			if (pok.getVida() < 0) {
-				pok.setVida(0);
+
+			if (!pok.isAlive()) {
+				debilitados.add(pok);
 			}
 		}
 
@@ -121,6 +131,13 @@ public class IndexController {
 		if (!rival.isAlive()) {
 			rival.setEstado("Tu equipo ha ganado contra " + rival.getName());
 		}
+
+		for (Pokemon pok : debilitados) {
+			equipo.remove(pok);
+		}
+
+		ash.setPokemonDeb(debilitados);
+
 		System.out.println(hpEquipo + "   " + rival.getEstado());
 	}
 }

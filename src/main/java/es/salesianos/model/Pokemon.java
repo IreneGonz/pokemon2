@@ -44,7 +44,9 @@ public class Pokemon {
 	public boolean isAlive() {
 		if (vida > 0) {
 			return true;
+		} else {
+			this.setVida(0);
+			return false;
 		}
-		return false;
 	}
 }

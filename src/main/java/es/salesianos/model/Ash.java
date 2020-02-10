@@ -9,18 +9,34 @@ public class Ash {
 
 	private Pokemon pokemonAux;
 	private List<Pokemon> pokemon;
+	private List<Pokemon> pokemonDeb;
 	private String name;
-//	private int maxPokes;
-	private Rival rival;
-	private String maxPokes;
+	private int maxPokes = 6;
+	private int pokeball;
+	private String limite = "";
 
-	public String getMaxPokes() {
+	public List<Pokemon> getPokemonDeb() {
+		return pokemonDeb;
+	}
+
+	public void setPokemonDeb(List<Pokemon> pokemonDeb) {
+		this.pokemonDeb = pokemonDeb;
+	}
+
+	public String getLimite() {
+		return limite;
+	}
+
+	public void setLimite(String limite) {
+		this.limite = limite;
+	}
+
+	public int getMaxPokes() {
 		return maxPokes;
 	}
 
-	public void setMaxPokes(String maxPokes) {
-		this.maxPokes = maxPokes;
-	}
+	private Rival rival;
+//	private String maxPokes;
 
 	public Rival getRival() {
 		return rival;

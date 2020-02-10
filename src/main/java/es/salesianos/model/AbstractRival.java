@@ -19,8 +19,10 @@ public abstract class AbstractRival implements Rival {
 	public boolean isAlive() {
 		if (vida > 0) {
 			return true;
+		} else {
+			this.setVida(0);
+			return false;
 		}
-		return false;
 	}
 
 	public String getName() {
