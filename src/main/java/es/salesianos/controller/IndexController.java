@@ -154,6 +154,7 @@ public class IndexController {
 			}
 
 			if (!pok.isAlive()) {
+				System.out.println("debilitado " + pok.getName() + " " + pok.getVida());
 				debilitados.add(pok);
 			}
 		}
@@ -170,6 +171,7 @@ public class IndexController {
 		}
 
 		for (Pokemon pok : debilitados) {
+			System.out.println("eliminado " + pok.getName() + " " + pok.getVida());
 			equipo.remove(pok);
 		}
 

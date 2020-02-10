@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class Ash {
 
 	private Pokemon pokemonAux;
-	private Rival pokemonCapt;
+	private Pokemon pokemonCapt;
 	private List<Pokemon> pokemon;
 	private List<Pokemon> pokemonDeb;
 	private String name;
@@ -16,11 +16,11 @@ public class Ash {
 	private int pokeball;
 	private String limite = "";
 
-	public Rival getPokemonCapt() {
+	public Pokemon getPokemonCapt() {
 		return pokemonCapt;
 	}
 
-	public void setPokemonCapt(Rival pokemonCapt) {
+	public void setPokemonCapt(Pokemon pokemonCapt) {
 		this.pokemonCapt = pokemonCapt;
 	}
 
