@@ -37,7 +37,12 @@
 		<input type="submit" value="Añadir pokemon al equipo" />
 	</form:form>
 	
+	<br />
 	<span><c:out value="${ash.limite}" /></span>
+	<br />
+	<span>Te quedan: <c:out value="${ash.maxPokeball}" /></span>
+	<span><c:out value="${ash.pokeball.name}" /></span>
+	
 	<form:form action="capturar" method="post" modelAttribute="ash">
 		<span>Intenta capturar al Pokemon:</span>
 		<br/>
@@ -52,7 +57,7 @@
 		<input type="submit" value="Intentar capturar!" />
 	</form:form>
 	
-	<br />
+	<br /><br/><br/>
 	<table border="1">
 	<span>Pokemons de</span> <c:out value="${ash.name}"/>
 		<thead>
@@ -100,7 +105,7 @@
 		</tbody>
 	</table>
 	<span><c:out value="${ash.rival.estado} " /></span>
-	<br />
+	<br /><br/><br/>
 	
 	<table border="1">
 	<span>Pokemons debilitados de </span> <c:out value="${ash.name}"/>

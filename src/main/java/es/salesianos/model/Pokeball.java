@@ -6,6 +6,8 @@ public interface Pokeball {
 
 	String getName();
 
+	void setName(String string);
+
 	int getCantidad();
 
 }

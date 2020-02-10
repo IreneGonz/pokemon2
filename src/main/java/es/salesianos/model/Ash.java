@@ -13,8 +13,25 @@ public class Ash {
 	private List<Pokemon> pokemonDeb;
 	private String name;
 	private int maxPokes = 6;
-	private int pokeball;
+	private Pokeball pokeball;
+	private int maxPokeball;
 	private String limite = "";
+
+	public Pokeball getPokeball() {
+		return pokeball;
+	}
+
+	public void setPokeball(Pokeball pokeball) {
+		this.pokeball = pokeball;
+	}
+
+	public int getMaxPokeball() {
+		return maxPokeball;
+	}
+
+	public void setMaxPokeball(int maxPokeball) {
+		this.maxPokeball = maxPokeball;
+	}
 
 	public Pokemon getPokemonCapt() {
 		return pokemonCapt;

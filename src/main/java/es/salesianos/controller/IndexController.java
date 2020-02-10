@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.salesianos.model.Ash;
+import es.salesianos.model.Pokeball;
 import es.salesianos.model.Pokemon;
 import es.salesianos.model.Rival;
 
@@ -19,6 +20,9 @@ public class IndexController {
 
 	@Autowired
 	private Ash ash;
+
+	@Autowired
+	private Pokeball pokeball;
 
 	@Autowired
 	private Rival rival;
@@ -34,9 +38,15 @@ public class IndexController {
 	public ModelAndView personInsert(Ash ashForm) {
 		ModelAndView modelAndView = new ModelAndView("index");
 		addPokemons(ashForm);
+		addPokeball();
 		addRival();
 		modelAndView.addObject("ash", ash);
 		return modelAndView;
+	}
+
+	private void addPokeball() {
+		ash.setMaxPokeball(pokeball.getCantidad());
+		ash.setPokeball(pokeball);
 	}
 
 	private void addPokemons(Ash ashForm) {
@@ -119,8 +129,8 @@ public class IndexController {
 		// Si el pokemon tiene vida 0 no lo puedes añadir
 		// if (!StringUtils.isEmpty(ashForm.getPokemonAux()) &&
 		// ashForm.getPokemonAux().isAlive()) {
-		if (!StringUtils.isEmpty(ashForm.getPokemonCapt())) {
 
+		if (!StringUtils.isEmpty(ashForm.getPokemonCapt())) {
 			pok.setName(ashForm.getPokemonCapt().getName());
 			pok.setVida(ashForm.getPokemonCapt().getVida());
 			pok.setAtaque(ashForm.getPokemonAux().getAtaque());
