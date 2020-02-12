@@ -9,11 +9,28 @@ public class Ash {
 	@Autowired
 	private Equipo equipo;
 
+	private Rival rival;
 	private String name;
 	private Pokemon pokemon;
 //	private Rival rival;
 	// Ash tiene un equipo que tiene una lista de pokemon??
 	// private Equipo equipo;
+
+	public Rival getRival() {
+		return rival;
+	}
+
+	public void setRival(Rival rival) {
+		this.rival = rival;
+	}
+
+	public Pokemon getPokemon() {
+		return pokemon;
+	}
+
+	public void setPokemon(Pokemon pokemon) {
+		this.pokemon = pokemon;
+	}
 
 	public Equipo getEquipo() {
 		return equipo;

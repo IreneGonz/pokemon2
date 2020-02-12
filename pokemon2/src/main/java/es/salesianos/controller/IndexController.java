@@ -80,15 +80,37 @@ public class IndexController {
 //				ash.setLimite("No puedes capturar más pokemons");
 //			}
 //		}
+		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()) {
+			if (!StringUtils.isEmpty(ashForm.getPokemon())) {
+				if (ash.getEquipo().getPokemon() != null) {
+					pokes = ash.getEquipo().getPokemon();
+				}
+				pok.setName(ashForm.getPokemon().getName());
+				pok.setVida(ashForm.getPokemon().getVida());
+				pok.setAtaque(ashForm.getPokemon().getAtaque());
+				pok.setDefensa(ashForm.getPokemon().getDefensa());
+
+				if (ash.getEquipo().getPokemon() == null
+						|| ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
+					System.out.println(ashForm.getPokemon().getVida());
+					pokes.add(pok);
+					ash.getEquipo().setPokemon(pokes);
+				} else {
+					ash.getEquipo().setLimite("No puedes capturar más pokemons");
+				}
+			}
+		}
 	}
 
 	private void addRival() {
 		rival.setName("Chorizo");
+//		System.out.println("RIVAL " + rival.getName() + " " + rival.getAtaque() + " " + rival.getDefensa() + " "
+//				+ rival.getVida());
 //		rival.setVida(99);
 //		rival.setAtaque(10);
 //		rival.setDefensa(20);
 
-//		ash.setRival(rival);
+		ash.setRival(rival);
 	}
 
 	@PostMapping("combate")
