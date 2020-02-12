@@ -16,6 +16,8 @@ public class Ash {
 	private Pokeball pokeball;
 	private int maxPokeball;
 	private String limite = "";
+	// Ash tiene un equipo que tiene una lista de pokemon??
+	// private Equipo equipo;
 
 	public Pokeball getPokeball() {
 		return pokeball;

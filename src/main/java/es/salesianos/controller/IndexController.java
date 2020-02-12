@@ -27,6 +27,11 @@ public class IndexController {
 	@Autowired
 	private Rival rival;
 
+	// El autowired tiene que ser Pokemon capturar o algo asi
+	// El autowired es Pokemon pokemon, tiene que haber un Pokemon rival¿?
+	// Y un Pokemon capturar??? / una lista de 6 pokemon para capturar y que luego
+	// no haya mas???
+
 	@GetMapping("/")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("index");
