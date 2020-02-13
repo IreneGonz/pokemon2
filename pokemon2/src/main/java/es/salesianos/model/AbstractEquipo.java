@@ -4,9 +4,18 @@ import java.util.List;
 
 public class AbstractEquipo implements Equipo {
 	public int capacidad;
+	public Pokemon main;
 	public List<Pokemon> pokemon;
 	public List<Pokemon> pokemonDeb;
 	private String limite = "";
+
+	public Pokemon getMain() {
+		return main;
+	}
+
+	public void setMain(Pokemon main) {
+		this.main = main;
+	}
 
 	public int getCapacidad() {
 		return capacidad;

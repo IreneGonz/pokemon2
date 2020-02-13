@@ -21,6 +21,26 @@
 	<br /> El nombre del maestro pokemon es
 	<span><c:out value="${ash.name}" /></span>
 	<br />
+
+	<span>Pokemon principal</span>
+	<table border="1">
+		<thead>
+			<tr>
+				<td>Nombre</td>
+				<td>Vida</td>
+				<td>Ataque</td>
+				<td>Defensa</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><c:out value="${ash.equipo.main.name}" /></td>
+				<td><c:out value="${ash.equipo.main.vida}" /></td>
+				<td><c:out value="${ash.equipo.main.ataque}" /></td>
+				<td><c:out value="${ash.equipo.main.defensa}" /></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	<br /><br/><br/>
 	<table border="1">
@@ -40,6 +60,9 @@
 					<td><c:out value="${poke.vida}" /></td>
 					<td><c:out value="${poke.ataque}" /></td>
 					<td><c:out value="${poke.defensa}" /></td>
+					<form:form action="changeMain${poke.id}" method="post" modelAttribute="main">
+					<td><input type="submit" value="Elegir pokemon principal" /></td>
+					</form:form>
 					<span>Añadir un boton que permita elegir a ese pokemon como principal, el que peleara contra el rival</span>
 				</tr>
 			</c:forEach>
@@ -47,11 +70,6 @@
 	</table>
 	
 	<br/>
-	
-	<span>Pokemon principal</span>
-	<table border="1">
-	
-	</table>
 	
 	<br/><br/>
 	<table border="1">
@@ -88,10 +106,10 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><c:out value="${ash.rival.name}" /></td>
-				<td><c:out value="${ash.rival.vida}" /></td>
-				<td><c:out value="${ash.rival.ataque}" /></td>
-				<td><c:out value="${ash.rival.defensa}" /></td>
+				<td><c:out value="${rival.name}" /></td>
+				<td><c:out value="${rival.vida}" /></td>
+				<td><c:out value="${rival.ataque}" /></td>
+				<td><c:out value="${rival.defensa}" /></td>
 				<form:form action="combate" method="post" modelAttribute="combate">
 				<td><input type="submit" value="Combate!" /></td>
 				</form:form>

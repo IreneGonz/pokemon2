@@ -20,4 +20,8 @@ public interface Equipo {
 
 	void setLimite(String limite);
 
+	Pokemon getMain();
+
+	void setMain(Pokemon main);
+
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +36,9 @@ public class IndexController {
 	@GetMapping("/")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("index");
+		addRival();
 		modelAndView.addObject("ash", this.ash);
+		modelAndView.addObject("rival", rival);
 		return modelAndView;
 	}
 
@@ -43,8 +46,8 @@ public class IndexController {
 	public ModelAndView personInsert(Ash ashForm) {
 		ModelAndView modelAndView = new ModelAndView("index");
 		addPokemons(ashForm);
-		addRival();
 		modelAndView.addObject("ash", ash);
+		modelAndView.addObject("rival", rival);
 		return modelAndView;
 	}
 
@@ -63,23 +66,31 @@ public class IndexController {
 		// Si el pokemon tiene vida 0 no lo puedes añadir
 		// if (!StringUtils.isEmpty(ashForm.getPokemonAux()) &&
 		// ashForm.getPokemonAux().isAlive()) {
-//		if (!StringUtils.isEmpty(ashForm.getPokemonAux())) {
-//			if (ash.getPokemon() != null) {
-//				pokes = ash.getPokemon();
-//			}
-//			pok.setName(ashForm.getPokemonAux().getName());
-//			pok.setVida(ashForm.getPokemonAux().getVida());
-//			pok.setAtaque(ashForm.getPokemonAux().getAtaque());
-//			pok.setDefensa(ashForm.getPokemonAux().getDefensa());
+
+//		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()) {
+//			if (!StringUtils.isEmpty(ashForm.getPokemon())) {
+//				if (ash.getEquipo().getPokemon() != null) {
+//					pokes = ash.getEquipo().getPokemon();
+//				}
+//				pok.setName(ashForm.getPokemon().getName());
+//				pok.setVida(ashForm.getPokemon().getVida());
+//				pok.setAtaque(ashForm.getPokemon().getAtaque());
+//				pok.setDefensa(ashForm.getPokemon().getDefensa());
 //
-//			if (ash.getPokemon() == null || ash.getPokemon().size() < ash.getMaxPokes()) {
-//				System.out.println(ashForm.getPokemonAux().getVida());
-//				pokes.add(pok);
-//				ash.setPokemon(pokes);
-//			} else {
-//				ash.setLimite("No puedes capturar más pokemons");
+//				if (ash.getEquipo().getPokemon() == null
+//						|| ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
+//					System.out.println(ashForm.getPokemon().getVida());
+//					pokes.add(pok);
+//					ash.getEquipo().setPokemon(pokes);
+//				} else {
+//					ash.getEquipo().setLimite("No puedes capturar más pokemons");
+//				}
 //			}
 //		}
+		// Añadir porcentaje de probabilidad de captura segun la pokeball
+		// Si la lista de pokemon estaba vacia SOLO se carga el main, no la lista de
+		// pokemons
+
 		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()) {
 			if (!StringUtils.isEmpty(ashForm.getPokemon())) {
 				if (ash.getEquipo().getPokemon() != null) {
@@ -90,9 +101,13 @@ public class IndexController {
 				pok.setAtaque(ashForm.getPokemon().getAtaque());
 				pok.setDefensa(ashForm.getPokemon().getDefensa());
 
-				if (ash.getEquipo().getPokemon() == null
+				if (ash.getEquipo().getMain() == null) {
+					pok.setId("0");
+					ash.getEquipo().setMain(pok);
+				} else if (ash.getEquipo().getPokemon() == null
 						|| ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
 					System.out.println(ashForm.getPokemon().getVida());
+					pok.setId((String.valueOf(ash.getEquipo().getPokemon().size())));
 					pokes.add(pok);
 					ash.getEquipo().setPokemon(pokes);
 				} else {
@@ -100,17 +115,18 @@ public class IndexController {
 				}
 			}
 		}
+
 	}
 
 	private void addRival() {
 		rival.setName("Chorizo");
-//		System.out.println("RIVAL " + rival.getName() + " " + rival.getAtaque() + " " + rival.getDefensa() + " "
-//				+ rival.getVida());
+		System.out.println("RIVAL " + rival.getName() + " " + rival.getAtaque() + " " + rival.getDefensa() + " "
+				+ rival.getVida());
 //		rival.setVida(99);
 //		rival.setAtaque(10);
 //		rival.setDefensa(20);
 
-		ash.setRival(rival);
+		// ash.setRival(rival);
 	}
 
 	@PostMapping("combate")
@@ -138,6 +154,37 @@ public class IndexController {
 		// capturePokemon(ashForm);
 		modelAndView.addObject("ash", ash);
 		return null;
+	}
+
+	@PostMapping("changeMain{id}")
+	// En el index.jsp el id es el id de Pokemon
+	public ModelAndView changeMain(@PathVariable("id") String id) {
+		ModelAndView modelAndView = new ModelAndView("index");
+
+		List<Pokemon> pokEquipo = ash.getEquipo().getPokemon();
+		Pokemon newMain = new Pokemon();
+		// coger main y meterlo en lista junto resto pokemons
+		// sacar el nuevo pok main elegido y meterlo en main
+
+		// cojo el main y lo meto en la lista del resto de pokemons
+
+		// VERSION SUPER CUTRE
+		// newMain = pokEquipo.get(0);
+
+		pokEquipo.add(ash.getEquipo().getMain());
+
+		ash.getEquipo().setPokemon(pokEquipo);
+		ash.getEquipo().setMain(newMain);
+
+//		ash.getEquipo().setMain(ash.getEquipo().getPokemon());
+
+		// if (ash.getEquipo().getMain() != null) {
+//			Pokemon pok = ash.getEquipo().getMain();
+//
+//			// ash.getEquipo().setMain(main);
+//		}
+
+		return modelAndView;
 	}
 
 	private void capturePokemon(Ash ashForm) {

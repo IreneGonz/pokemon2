@@ -8,6 +8,15 @@ public class Pokemon {
 	private int vida;
 	private int ataque;
 	private int defensa;
+	private String id;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getAtaque() {
 		return ataque;
