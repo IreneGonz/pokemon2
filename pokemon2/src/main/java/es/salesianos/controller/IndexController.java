@@ -92,29 +92,43 @@ public class IndexController {
 		// pokemons
 
 		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()) {
-			if (!StringUtils.isEmpty(ashForm.getPokemon())) {
-				if (ash.getEquipo().getPokemon() != null) {
-					pokes = ash.getEquipo().getPokemon();
-				}
-				pok.setName(ashForm.getPokemon().getName());
-				pok.setVida(ashForm.getPokemon().getVida());
-				pok.setAtaque(ashForm.getPokemon().getAtaque());
-				pok.setDefensa(ashForm.getPokemon().getDefensa());
+			ash.getEquipo().setLimite("");
 
-				if (ash.getEquipo().getMain() == null) {
-					pok.setId("0");
-					ash.getEquipo().setMain(pok);
-				} else if (ash.getEquipo().getPokemon() == null
-						|| ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
-					System.out.println(ashForm.getPokemon().getVida());
-					pok.setId((String.valueOf(ash.getEquipo().getPokemon().size())));
-					pokes.add(pok);
-					ash.getEquipo().setPokemon(pokes);
-				} else {
-					ash.getEquipo().setLimite("No puedes capturar más pokemons");
-				}
+			if (ash.getEquipo().getPokemon() != null) {
+				pokes = ash.getEquipo().getPokemon();
+			}
+			pok.setName(ashForm.getPokemon().getName());
+			pok.setVida(ashForm.getPokemon().getVida());
+			pok.setAtaque(ashForm.getPokemon().getAtaque());
+			pok.setDefensa(ashForm.getPokemon().getDefensa());
+
+			if (ash.getEquipo().getMain() == null) {
+				pok.setId("1");
+				ash.getEquipo().setMain(pok);
+			} else if (ash.getEquipo().getPokemon() == null) {
+				pok.setId("2");
+				System.out.println("no habia pokes en esquipo, id= " + pok.getId());
+				pokes.add(pok);
+				ash.getEquipo().setPokemon(pokes);
+			} else if (ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
+
+				// else if (ash.getEquipo().getPokemon() == null
+				// || ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
+				// System.out.println(ashForm.getPokemon().getVida());
+				pok.setId((String.valueOf(ash.getEquipo().getPokemon().size() + 1))); // size()+1
+				// System.out.println(ash.getEquipo().getPokemon().size());
+
+				System.out.println("ya habia pokes equipo, id= " + pok.getId());
+				pokes.add(pok);
+				ash.getEquipo().setPokemon(pokes);
+				System.out.println(ash.getEquipo().getPokemon().size());
+			} else {
+				ash.getEquipo().setLimite("No puedes capturar más pokemons");
 			}
 		}
+//		else {
+//			ash.getEquipo().setLimite("No puedes poner un pokemon con vida 0");
+//		}
 
 	}
 
@@ -161,28 +175,72 @@ public class IndexController {
 	public ModelAndView changeMain(@PathVariable("id") String id) {
 		ModelAndView modelAndView = new ModelAndView("index");
 
+		modelAndView.addObject("ash", ash);
+		modelAndView.addObject("rival", rival);
+
+		// El equipo actual de ash
 		List<Pokemon> pokEquipo = ash.getEquipo().getPokemon();
 		Pokemon newMain = new Pokemon();
-		// coger main y meterlo en lista junto resto pokemons
-		// sacar el nuevo pok main elegido y meterlo en main
 
-		// cojo el main y lo meto en la lista del resto de pokemons
-
-		// VERSION SUPER CUTRE
-		// newMain = pokEquipo.get(0);
-
-		pokEquipo.add(ash.getEquipo().getMain());
-
-		ash.getEquipo().setPokemon(pokEquipo);
-		ash.getEquipo().setMain(newMain);
-
-//		ash.getEquipo().setMain(ash.getEquipo().getPokemon());
-
-		// if (ash.getEquipo().getMain() != null) {
-//			Pokemon pok = ash.getEquipo().getMain();
-//
-//			// ash.getEquipo().setMain(main);
+//		for (int i = 0; i < pokEquipo.size(); i++) {
+//			System.out.println("iteracion");
+//			System.out.println(i + " " + pokEquipo.size() + " " + pokEquipo.get(i).getId() + " " + id);
+//			if (pokEquipo.get(i).getId() == id) {
+//				System.out.println("pokoncio id " + pokEquipo.get(i).getName());
+//				newMain = pokEquipo.get(i);
+//				pokEquipo.remove(i);
+//			}
 //		}
+//		System.out.println("nuevo main id " + newMain.getId());
+//
+//		pokEquipo.add(ash.getEquipo().getMain());
+//		ash.getEquipo().setPokemon(pokEquipo);
+//		System.out.println("antes id main " + ash.getEquipo().getMain().getId());
+//		ash.getEquipo().setMain(newMain);
+//		System.out.println("despues id main " + ash.getEquipo().getMain().getId());
+
+		System.out.println("id nuevo main " + id);
+
+		System.out.println("tamaño equipo " + pokEquipo.size());
+
+//		// recorro el equipo buscando el id del nuevo pokemon main
+//		for (Pokemon pok : pokEquipo) {
+//			// System.out.println("haciendo bucle");
+//			System.out.println(pok.getId() + "  " + id);
+//			if (pok.getId() == id) {
+//				System.out.println("main viejo " + ash.getEquipo().getMain().getId());
+//				newMain = pok;
+//				// quito de los pokemons equipo al nuevo main
+//				pokEquipo.remove(pok);
+//				// meto en el equipo al viejo main
+//				pokEquipo.add(ash.getEquipo().getMain());
+//				// pongo el nuevo main
+//				ash.getEquipo().setMain(newMain);
+//				ash.getEquipo().setPokemon(pokEquipo);
+//
+//				System.out.println("main nuevo " + ash.getEquipo().getMain().getId());
+//				// break;
+//			}
+//		}
+		System.out.println("oldmain " + ash.getEquipo().getMain().getId());
+
+		for (Pokemon pok : pokEquipo) {
+			System.out.println(id + " pokactual " + pok.getId());
+			if (pok.getId() != id) { // POR QUE ESTO FUNCIONA Y CON == NO???
+				newMain.setAtaque(pok.getAtaque());
+				newMain.setDefensa(pok.getDefensa());
+				newMain.setId(pok.getId());
+				newMain.setName(pok.getName());
+				newMain.setVida(pok.getVida());
+
+				pokEquipo.add(ash.getEquipo().getMain());
+				ash.getEquipo().setMain(newMain);
+				pokEquipo.remove(pok);
+			}
+		}
+		ash.getEquipo().setPokemon(pokEquipo);
+
+		System.out.println("newmain " + ash.getEquipo().getMain().getId());
 
 		return modelAndView;
 	}

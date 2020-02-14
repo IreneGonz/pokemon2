@@ -26,6 +26,7 @@
 	<table border="1">
 		<thead>
 			<tr>
+				<td>ID</td>
 				<td>Nombre</td>
 				<td>Vida</td>
 				<td>Ataque</td>
@@ -34,6 +35,7 @@
 		</thead>
 		<tbody>
 			<tr>
+				<td><c:out value="${ash.equipo.main.id}" /></td>
 				<td><c:out value="${ash.equipo.main.name}" /></td>
 				<td><c:out value="${ash.equipo.main.vida}" /></td>
 				<td><c:out value="${ash.equipo.main.ataque}" /></td>
@@ -47,6 +49,7 @@
 	<span>Pokemons de</span> <c:out value="${ash.name}"/>
 		<thead>
 			<tr>
+				<td>ID</td>
 				<td>Nombre</td>
 				<td>Vida</td>
 				<td>Ataque</td>
@@ -56,6 +59,7 @@
 		<tbody>
 			<c:forEach var="poke" items="${ash.equipo.pokemon}">
 				<tr>
+					<td><c:out value="${poke.id}" /></td>
 					<td><c:out value="${poke.name}" /></td>
 					<td><c:out value="${poke.vida}" /></td>
 					<td><c:out value="${poke.ataque}" /></td>
