@@ -158,6 +158,7 @@ public class IndexController {
 //		}
 
 		modelAndView.addObject("ash", ash);
+		modelAndView.addObject("rival", rival);
 		System.out.println("combatiendo");
 		return modelAndView;
 	}
@@ -182,46 +183,8 @@ public class IndexController {
 		List<Pokemon> pokEquipo = ash.getEquipo().getPokemon();
 		Pokemon newMain = new Pokemon();
 
-//		for (int i = 0; i < pokEquipo.size(); i++) {
-//			System.out.println("iteracion");
-//			System.out.println(i + " " + pokEquipo.size() + " " + pokEquipo.get(i).getId() + " " + id);
-//			if (pokEquipo.get(i).getId() == id) {
-//				System.out.println("pokoncio id " + pokEquipo.get(i).getName());
-//				newMain = pokEquipo.get(i);
-//				pokEquipo.remove(i);
-//			}
-//		}
-//		System.out.println("nuevo main id " + newMain.getId());
-//
-//		pokEquipo.add(ash.getEquipo().getMain());
-//		ash.getEquipo().setPokemon(pokEquipo);
-//		System.out.println("antes id main " + ash.getEquipo().getMain().getId());
-//		ash.getEquipo().setMain(newMain);
-//		System.out.println("despues id main " + ash.getEquipo().getMain().getId());
-
-		System.out.println("id nuevo main " + id);
-
 		System.out.println("tamaño equipo " + pokEquipo.size());
 
-//		// recorro el equipo buscando el id del nuevo pokemon main
-//		for (Pokemon pok : pokEquipo) {
-//			// System.out.println("haciendo bucle");
-//			System.out.println(pok.getId() + "  " + id);
-//			if (pok.getId() == id) {
-//				System.out.println("main viejo " + ash.getEquipo().getMain().getId());
-//				newMain = pok;
-//				// quito de los pokemons equipo al nuevo main
-//				pokEquipo.remove(pok);
-//				// meto en el equipo al viejo main
-//				pokEquipo.add(ash.getEquipo().getMain());
-//				// pongo el nuevo main
-//				ash.getEquipo().setMain(newMain);
-//				ash.getEquipo().setPokemon(pokEquipo);
-//
-//				System.out.println("main nuevo " + ash.getEquipo().getMain().getId());
-//				// break;
-//			}
-//		}
 		System.out.println("oldmain " + ash.getEquipo().getMain().getId());
 
 		for (Pokemon pok : pokEquipo) {
