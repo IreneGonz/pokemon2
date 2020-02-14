@@ -10,4 +10,8 @@ public interface Pokeball {
 
 	int getCantidad();
 
+	void setCantidad(int i);
+
+	boolean calcularProb();
+
 }

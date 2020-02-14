@@ -16,9 +16,9 @@ public interface Equipo {
 
 	void setPokemonDeb(List<Pokemon> pokemonDeb);
 
-	String getLimite();
+	String getEstado();
 
-	void setLimite(String limite);
+	void setEstado(String limite);
 
 	Pokemon getMain();
 

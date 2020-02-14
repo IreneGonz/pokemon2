@@ -20,7 +20,9 @@
 	<br />
 	<br /> El nombre del maestro pokemon es
 	<span><c:out value="${ash.name}" /></span>
-	<br />
+	<br /><br />
+	<span>Tienes <c:out value="${ash.pokeball.cantidad}" /> <c:out value="${ash.pokeball.name}" /></span>
+	<br/><br />
 
 	<span>Pokemon principal</span>
 	<table border="1">
@@ -67,7 +69,6 @@
 					<form:form action="changeMain${poke.id}" method="post" modelAttribute="main">
 					<td><input type="submit" value="Elegir pokemon principal" /></td>
 					</form:form>
-					<span>Añadir un boton que permita elegir a ese pokemon como principal, el que peleara contra el rival</span>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -79,6 +80,8 @@
 	<table border="1">
 	
 	<br />
+	<span>ESTO SOBRA CON EL TEMA DE LAS POKEBALL</span>
+	<br/><br/>
 	<span>Capacidad del equipo: <c:out value="${ash.equipo.capacidad}" /></span>
 	<br />
 	
@@ -93,11 +96,12 @@
 		<form:input type="number" path="pokemon.ataque" />
 		<span>Defensa:</span>
 		<form:input type="number" path="pokemon.defensa" />
-		<input type="submit" value="Capturar pokemon y meterlo al equipo" />
+		<input type="submit" value="Intentar capturar pokemon y meterlo al equipo" />
 	</form:form>
-	<span><c:out value="${ash.equipo.limite}" /></span>
+	<br/>
+	<span><c:out value="${ash.equipo.estado}" /></span>
 	
-	<br />
+	<br /><br />
 	
 	<span>Pokemon rival</span>
 		<thead>
@@ -120,7 +124,6 @@
 			</tr>
 		</tbody>
 	</table>
-	<span>Añadir un log de batalla</span>
 	<span><c:out value="${rival.estado} " /></span>
 	<br /><br/><br/>
 	

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.salesianos.model.Ash;
+import es.salesianos.model.Equipo;
 import es.salesianos.model.Pokeball;
 import es.salesianos.model.Pokemon;
 import es.salesianos.model.Rival;
@@ -91,9 +92,11 @@ public class IndexController {
 		// Si la lista de pokemon estaba vacia SOLO se carga el main, no la lista de
 		// pokemons
 
-		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()) {
-			ash.getEquipo().setLimite("");
+		if (!StringUtils.isEmpty(ashForm.getPokemon()) && ashForm.getPokemon().isAlive()
+				&& ash.getPokeball().getCantidad() > 0) {
+			ash.getEquipo().setEstado("");
 
+			// if (ash.getPokeball().calcularProb()) {
 			if (ash.getEquipo().getPokemon() != null) {
 				pokes = ash.getEquipo().getPokemon();
 			}
@@ -105,31 +108,31 @@ public class IndexController {
 			if (ash.getEquipo().getMain() == null) {
 				pok.setId("1");
 				ash.getEquipo().setMain(pok);
+				ash.getPokeball().setCantidad(ash.getPokeball().getCantidad() - 1);
 			} else if (ash.getEquipo().getPokemon() == null) {
 				pok.setId("2");
-				System.out.println("no habia pokes en esquipo, id= " + pok.getId());
 				pokes.add(pok);
 				ash.getEquipo().setPokemon(pokes);
-			} else if (ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
-
-				// else if (ash.getEquipo().getPokemon() == null
-				// || ash.getEquipo().getPokemon().size() < ash.getEquipo().getCapacidad()) {
-				// System.out.println(ashForm.getPokemon().getVida());
-				pok.setId((String.valueOf(ash.getEquipo().getPokemon().size() + 1))); // size()+1
-				// System.out.println(ash.getEquipo().getPokemon().size());
-
-				System.out.println("ya habia pokes equipo, id= " + pok.getId());
-				pokes.add(pok);
-				ash.getEquipo().setPokemon(pokes);
-				System.out.println(ash.getEquipo().getPokemon().size());
-			} else {
-				ash.getEquipo().setLimite("No puedes capturar más pokemons");
+				ash.getPokeball().setCantidad(ash.getPokeball().getCantidad() - 1);
 			}
-		}
-//		else {
-//			ash.getEquipo().setLimite("No puedes poner un pokemon con vida 0");
-//		}
 
+			// si hay main y hay pokemons en el equipo
+			else {
+				pok.setId((String.valueOf(ash.getEquipo().getPokemon().size() + 2))); // size()+1
+				System.out.println(pok.getId());
+				pokes.add(pok);
+				ash.getEquipo().setPokemon(pokes);
+				ash.getPokeball().setCantidad(ash.getPokeball().getCantidad() - 1);
+			}
+
+			// }
+//			else {
+//				ash.getEquipo().setEstado("El pokemon " + ashForm.getPokemon().getName() + " se ha escapado");
+//			}
+
+		} else if (ash.getPokeball().getCantidad() == 0) {
+			ash.getEquipo().setEstado("No te quedan " + ash.getPokeball().getName());
+		}
 	}
 
 	private void addRival() {
@@ -146,8 +149,10 @@ public class IndexController {
 	@PostMapping("combate")
 	public ModelAndView combate() {
 		ModelAndView modelAndView = new ModelAndView("index");
-		List<Pokemon> equipo;
-		List<Pokemon> debilitados = new ArrayList<Pokemon>();
+
+		// COMBATIR EQUIPO
+//		List<Pokemon> equipo;
+//		List<Pokemon> debilitados = new ArrayList<Pokemon>();
 
 //		if (!StringUtils.isEmpty(ash.getPokemon())) {
 //			System.out.println("HABIA pokemon");
@@ -156,6 +161,15 @@ public class IndexController {
 //
 //			combatir(rival, equipo, debilitados);
 //		}
+
+		List<Pokemon> debilitados = new ArrayList<Pokemon>();
+
+		if (ash.getEquipo().getPokemonDeb() != null) {
+			debilitados = ash.getEquipo().getPokemonDeb();
+		}
+
+		// COMBATIR MAIN Y RIVAL
+		combatir(rival, ash.getEquipo(), debilitados);
 
 		modelAndView.addObject("ash", ash);
 		modelAndView.addObject("rival", rival);
@@ -179,7 +193,6 @@ public class IndexController {
 		modelAndView.addObject("ash", ash);
 		modelAndView.addObject("rival", rival);
 
-		// El equipo actual de ash
 		List<Pokemon> pokEquipo = ash.getEquipo().getPokemon();
 		Pokemon newMain = new Pokemon();
 
@@ -189,18 +202,19 @@ public class IndexController {
 
 		for (Pokemon pok : pokEquipo) {
 			System.out.println(id + " pokactual " + pok.getId());
-			if (pok.getId() != id) { // POR QUE ESTO FUNCIONA Y CON == NO???
-				newMain.setAtaque(pok.getAtaque());
-				newMain.setDefensa(pok.getDefensa());
-				newMain.setId(pok.getId());
-				newMain.setName(pok.getName());
-				newMain.setVida(pok.getVida());
+			if (pok.getId().equals(id)) {
+				newMain = pok;
 
-				pokEquipo.add(ash.getEquipo().getMain());
-				ash.getEquipo().setMain(newMain);
-				pokEquipo.remove(pok);
+//				pokEquipo.add(ash.getEquipo().getMain());
+//				ash.getEquipo().setMain(newMain);
+//				pokEquipo.remove(pok);
 			}
 		}
+
+		pokEquipo.add(ash.getEquipo().getMain());
+		ash.getEquipo().setMain(newMain);
+		pokEquipo.remove(newMain);
+
 		ash.getEquipo().setPokemon(pokEquipo);
 
 		System.out.println("newmain " + ash.getEquipo().getMain().getId());
@@ -236,6 +250,50 @@ public class IndexController {
 //		}
 	}
 
+	private void combatir(Rival rival, Equipo equipo, List<Pokemon> deb) {
+		Pokemon main = equipo.getMain(); // equipo de ash
+
+		System.out.println("vida del main " + main.getName() + " " + main.getVida());
+		System.out.println("vida del rival " + rival.getName() + " " + rival.getVida());
+		System.out.println("------------");
+
+		if (main.isAlive() & main.getAtaque() >= rival.getDefensa()) {
+			rival.setVida(rival.getVida() - main.getAtaque());
+		}
+
+		if (main.isAlive() && rival.getAtaque() >= main.getDefensa()) {
+			main.setVida(main.getVida() - rival.getAtaque());
+		}
+
+		if (!main.isAlive()) {
+			System.out.println("debilitado " + main.getName() + " " + main.getVida());
+			deb.add(main);
+			rival.setEstado("Pokemon " + main.getName() + " debilitado!");
+			// coger el siguiente pokemon del equipo SI HAY MAS y meterlo a main
+			// si no hay mas pues GAME OVER
+			// si hay mas pokemons se coge el primero
+			if (equipo.getPokemon() != null & equipo.getPokemon().size() != 0) {
+				// ash.getEquipo().setMain(equipo.getPokemon().get(0));
+				main = equipo.getPokemon().get(0);
+				equipo.setMain(main);
+				// main = equipo.getPokemon().get(0);
+				rival.setEstado("Pokemon " + main.getName() + " ha salido al combate!");
+				equipo.getPokemon().remove(0);
+				System.out.println("cambio de main " + main.getId());
+			} else {
+				equipo.setMain(new Pokemon());
+				rival.setEstado("Todos tus pokemons se han debilitado");
+			}
+		}
+
+		if (!rival.isAlive()) {
+			rival.setEstado("Has ganado el combate contra " + rival.getName());
+		}
+
+		ash.getEquipo().setPokemonDeb(deb);
+	}
+
+	// Combatir UN EQUIPO
 	private void combatir(Rival rival, List<Pokemon> equipo, List<Pokemon> debilitados) {
 		int hpEquipo = 0;
 		int atEquipo = 0;

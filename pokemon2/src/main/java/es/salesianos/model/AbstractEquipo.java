@@ -41,11 +41,11 @@ public class AbstractEquipo implements Equipo {
 		this.pokemonDeb = pokemonDeb;
 	}
 
-	public String getLimite() {
+	public String getEstado() {
 		return limite;
 	}
 
-	public void setLimite(String limite) {
+	public void setEstado(String limite) {
 		this.limite = limite;
 	}
 
